@@ -1,0 +1,15 @@
+{
+   "compilerOptions": {
+        "target": "es6",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "rootDir" : "src/",
+        "baseUrl" : ".",
+        "outDir" : "dist/js/"
+    },
+    "include" : [
+      "src/**/*",
+      "node_modules/@types/node/index.d.ts",
+      "node_modules/@types/leaflet/index.d.ts"
+  ]
+}
