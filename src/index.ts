@@ -1,41 +1,53 @@
+import * as mapboxgl from 'mapbox-gl'
 
-const map: L.Map = new L.Map('main')
-map.setView(new L.LatLng(42.3549941, -71.1053387), 12)
+(mapboxgl as any).accessToken = 'pk.eyJ1IjoieWFzdXNoaXNha2FpIiwiYSI6ImNpdThwajN1ZTAwNjUzM28weHRuMnJ4a2kifQ.ooHi0pGR-SdDraWzTRCoVA'
 
-const accessToken = 'pk.eyJ1IjoieWFzdXNoaXNha2FpIiwiYSI6ImNpdThwajN1ZTAwNjUzM28weHRuMnJ4a2kifQ.ooHi0pGR-SdDraWzTRCoVA'
+const map: mapboxgl.Map = new mapboxgl.Map(
+  {
+    center: new mapboxgl.LngLat(-71.08, 42.36054),
+    container: 'main',
+    hash: true,
+    style: 'mapbox://styles/mapbox/streets-v9',
+    zoom: 15,
+  },
+)
 
-const tileURL = `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${accessToken}`
-const attribution = `mapbox, openstreetmaps`
+map.on('load', () => {
 
-const tileLayer = new L.TileLayer(tileURL, {
-  accessToken,
-  attribution,
-  id : 'mapbox.streets',
-  maxZoom: 18,
-});
+    map.addLayer({
+        id: 'route',
+        layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+        },
+        paint: {
+            'line-color': '#888',
+            'line-width': 8,
+        },
+        source: {
+            data: {
+                geometry: {
+                  coordinates: [
+                    [-71.18, 42.36054],
+                    [-71.18, 42.37054],
+                    [-71.08, 42.36054],
+                    [-71.08, 42.37054],
+                    ],
+                    type: 'LineString',
+                },
+                properties: {},
+                type: 'Feature',
+            },
+            type: 'geojson',
+        },
+        type: 'line',
+      })
 
-tileLayer.addTo(map)
-
-let rect: L.Rectangle
-
-function updateSquare() {
-
-  const circle = new L.Circle(map.getCenter(), 500)
-  circle.addTo(map)
-  const bound: L.LatLngBounds = circle.getBounds()
-
-  console.log(bound.toBBoxString())
-
-  rect = new L.Rectangle(bound)
-  circle.removeFrom(map)
-
-  rect.addTo(map)
-
-}
-
-map.on('moveend', () => {
-  rect.removeFrom(map);
-  updateSquare()
+    console.log('i loaded')
 })
 
-updateSquare()
+map.on('dragend', () => {
+  map.getCenter()
+})
+
+function

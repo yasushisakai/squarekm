@@ -1,15 +1,17 @@
 {
    "compilerOptions": {
-        "target": "es6",
-        "noImplicitAny": false,
+        "module": "es6",
+        "target": "es5",
+        "noImplicitAny": true,
         "sourceMap": true,
         "rootDir" : "src/",
         "baseUrl" : ".",
-        "outDir" : "dist/js/"
+        "outDir" : "dist/js/",
+        "allowJs" : true
     },
     "include" : [
       "src/**/*",
       "node_modules/@types/node/index.d.ts",
-      "node_modules/@types/leaflet/index.d.ts"
+      "node_modules/@types/mapbox-gl/index.d.ts"
   ]
 }
